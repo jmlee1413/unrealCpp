@@ -3,9 +3,10 @@
 // 버텍스 안에들어가는 픽셀수를 계산한다.
 struct ps_input
 {
-	float4 pos : SV_POSITION;
-	float4 color : COLOR;
-	float2 texCoord : TEXCOORD0;
+	float4 pos:SV_POSITION;
+	//float4 color:COLOR;
+	float2 texCoord: TEXCOORD0;
+	float3 normal: TEXCOORD1;
 };
 
 // 텍스처 정보.
