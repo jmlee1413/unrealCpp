@@ -40,8 +40,8 @@ if (diffuse.x > 0)
 	specular = pow(specular, 1.f); 
 }
 
-float3 finalColor = texColor.rgb * diffuse;
+float3 finalColor = texColor.rgb * diffuse + specular;
 
 // 텍스처 색상 반환.
-return float4(specular, 1);
+return float4(finalColor, 1);
 }
