@@ -56,7 +56,7 @@ vs_output main(
 	float3 worldNormal = normalize(mul(input.normal, (float3x3)world));// 물체가 가지고있는 노멀값을 월드공간의 노멀값으로 변환해줌
 	float3 diffuse = dot(-lightDir.xyz, worldNormal); // 구한방향이 0.0을 바라본다 근디 반대로바라봐야함 그래서 -
 	//output.diffuse = diffuse;
-	output.diffuse = diffuse * 0.5f + 0.5f;
+	output.diffuse = diffuse * 0.5f + 0.4f;
 
 	//스펙큘러
 	float3 viewDir = normalize(output.pos - worldCameraPosition);

@@ -137,5 +137,9 @@ protected:
 	//fbx 로드
 	HRESULT LoadFBX(const char* fileName, std::vector<Vertex>* pOutVertices,
 		std::vector<DWORD>* pOutIndices);
+
+	XMFLOAT2 ReadUV(FbxMesh* mesh, int controlPointIndex, int vertexCount);
+
+	XMFLOAT3 ReadNormal(FbxMesh* mesh, int controlPointIndex, int vertexCount); // 버텍스 노멀
 };
 

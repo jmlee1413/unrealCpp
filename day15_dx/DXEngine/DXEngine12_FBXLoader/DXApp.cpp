@@ -258,7 +258,7 @@ bool DXApp::InitScene()
 {
 	//버텍스셰이더파일 컴파일해서 버텍스셰이더용 버퍼에 저장
 	HRESULT hr;
-	hr = D3DX11CompileFromFile(L"DiffuseVS.fx", NULL, NULL, "main",
+	hr = D3DX11CompileFromFile(L"SpecularVS.fx", NULL, NULL, "main",
 		"vs_4_0", NULL, NULL, NULL, &vertexShaderBuffer, 
 		NULL, NULL);
 
@@ -283,7 +283,7 @@ bool DXApp::InitScene()
 
 	
 	//픽셀셰이더 컴파일해서 필셀셰이더 버퍼에 저장
-	hr = D3DX11CompileFromFile(L"DiffusePS.fx", NULL, NULL, "main",
+	hr = D3DX11CompileFromFile(L"SpecularPS.fx", NULL, NULL, "main",
 		"ps_4_0", NULL, NULL, NULL, &pixelShaderBuffer, NULL, NULL);
 
 
@@ -307,10 +307,21 @@ bool DXApp::InitScene()
 	pDeviceContext->PSSetShader(pixelShader, NULL, NULL);
 
 	//모델 로드
-	if (LoadModel("cube.txt") == false)
+	//if (LoadModel("cube.txt") == false)
+	//{
+	//	return false;
+	//}
+
+	hr = LoadFBX("SK_CharM_Cardboard.FBX", &vertices, &indices);
+	if (FAILED(hr))
 	{
+		MessageBox(hwnd, L"fbx 로드 실패", L"오류", MB_OK);
 		return false;
 	}
+
+	// 버텍스, 인덱스 개수 설정
+	nVertices = vertices.size();
+	nIndices = indices.size();
 
 	D3D11_BUFFER_DESC vbDesc;
 	ZeroMemory(&vbDesc, sizeof(D3D11_BUFFER_DESC));
@@ -463,7 +474,7 @@ bool DXApp::LoadModel(const char * fileName)
 bool DXApp::InitTransformation()
 {
 	worldMatrix  = XMMatrixIdentity();
-	cameraPos    = XMVectorSet(4.f, 4.f, -8.f, 0.f);
+	cameraPos    = XMVectorSet(0.f, 0.f, -200.f, 0.f);
 	cameraTarget = XMVectorSet(0.f, 0.f, 0.f, 0.f);
 	cameraUp     = XMVectorSet(0.f, 1.f, 0.f, 0.f);
 
@@ -645,11 +656,18 @@ HRESULT DXApp::LoadFBX(const char * fileName, std::vector<Vertex>* pOutVertices,
 			int vertexCount = fbxMesh->GetPolygonSize(jx); // 폴리곤 구성하는 버텍스 개수 확인
 			for (int kx = 0; kx < vertexCount; ++kx)
 			{
+				// 버텍스 일기
 				int vertexIndex = fbxMesh->GetPolygonVertex(jx, kx);
 				Vertex vertex;
 				vertex.position.x = (float)vertices[vertexIndex].mData[0];
 				vertex.position.y = (float)vertices[vertexIndex].mData[1];
 				vertex.position.z = (float)vertices[vertexIndex].mData[2];
+
+				//uv 읽기
+				vertex.texCoord = ReadUV(fbxMesh, vertexIndex, vertexCounter);
+
+				// 노멀 읽기
+				vertex.normal = ReadNormal(fbxMesh, vertexIndex, vertexCounter);
 
 				pOutVertices->push_back(vertex);
 				pOutIndices->push_back(vertexCounter);
@@ -662,4 +680,124 @@ HRESULT DXApp::LoadFBX(const char * fileName, std::vector<Vertex>* pOutVertices,
 
 
 	return S_OK;
+}
+
+XMFLOAT2 DXApp::ReadUV(FbxMesh * mesh, int controlPointIndex, int vertexCounter)
+{
+	// UV가 있는지 확인.
+	if (mesh->GetElementUVCount() < 1)
+	{
+		MessageBox(NULL, L"UV가 없습니다.", L"오류", MB_OK);
+		return NULL;
+	}
+
+	// 반환용 데이터 선언.
+	XMFLOAT2 texCoord(0.0f, 0.0f);
+
+	// UV 전체 배열 읽기.
+	FbxGeometryElementUV* vertexUV = mesh->GetElementUV(0);
+	const bool isUsingIndex
+		= vertexUV->GetReferenceMode() != FbxGeometryElement::eDirect;
+	const int indexCount = isUsingIndex ? vertexUV->GetIndexArray().GetCount() : 0;
+
+	// 모드 확인.
+	switch (vertexUV->GetMappingMode())
+	{
+		// 현재 정점이 제어점 유형인 경우.
+	case FbxGeometryElement::eByControlPoint:
+	{
+		// 현재 UV 값을 읽어올 인덱스 얻어오기.
+		int index = isUsingIndex ? vertexUV->GetIndexArray().GetAt(controlPointIndex) : controlPointIndex;
+
+		/*if (isUsingIndex == true)
+			index = vertexUV->GetIndexArray().GetAt(controlPointIndex);
+		else
+			index = controlPointIndex;*/
+
+			// UV 값 읽어오기. (DirectX와 FBX의 UV의 V좌표는 서로 반대.)
+		texCoord.x = (float)vertexUV->GetDirectArray().GetAt(index).mData[0];
+		texCoord.y = 1.0f - (float)vertexUV->GetDirectArray().GetAt(index).mData[1];
+
+		// UV 값 반환.
+		return texCoord;
+	}
+
+	case FbxGeometryElement::eByPolygonVertex:
+	{
+		// 현재 UV 값을 읽어올 인덱스 얻어오기.
+		int index = isUsingIndex ? vertexUV->GetIndexArray().GetAt(vertexCounter) : vertexCounter;
+
+		// UV 값 읽어오기. (DirectX와 FBX의 UV의 V좌표는 서로 반대.)
+		texCoord.x = (float)vertexUV->GetDirectArray().GetAt(index).mData[0];
+		texCoord.y = 1.0f - (float)vertexUV->GetDirectArray().GetAt(index).mData[1];
+
+		// UV 값 반환.
+		return texCoord;
+	}
+
+	default:
+	{
+		MessageBox(NULL, L"UV 값이 유효하지 않습니다", L"오류", MB_OK);
+		return NULL;
+	}
+	}
+
+	return NULL;
+}
+
+XMFLOAT3 DXApp::ReadNormal(FbxMesh * mesh, int controlPointIndex, int vertexCounter)
+{
+	XMFLOAT3 normal(0.0f, 0.0f, 0.0f);
+
+	// 노멀이 있는지 확인.
+	if (mesh->GetElementNormalCount() < 1)
+	{
+		MessageBox(NULL, L"노멀이 없습니다.", L"오류", MB_OK);
+		return NULL;
+	}
+
+	FbxGeometryElementNormal* vertexNormal = mesh->GetElementNormal(0);
+	const bool isUsingIndex
+		= vertexNormal->GetReferenceMode() != FbxGeometryElement::eDirect;
+	const int indexCount = isUsingIndex ? vertexNormal->GetIndexArray().GetCount() : 0;
+
+	switch (vertexNormal->GetMappingMode())
+	{
+		// 현재 정점이 제어점 유형인 경우.
+	case FbxGeometryElement::eByControlPoint:
+	{
+		// 현재 노멀 값을 읽어올 인덱스 얻어오기.
+		int index = isUsingIndex ? vertexNormal->GetIndexArray().GetAt(controlPointIndex) : controlPointIndex;
+
+		// 노멀 값 읽어오기. (DirectX와 FBX의 UV의 V좌표는 서로 반대.)
+		normal.x = (float)vertexNormal->GetDirectArray().GetAt(index).mData[0];
+		normal.y = (float)vertexNormal->GetDirectArray().GetAt(index).mData[1];
+		normal.z = (float)vertexNormal->GetDirectArray().GetAt(index).mData[2];
+
+		// 노멀 값 반환.
+		return normal;
+	}
+
+	case FbxGeometryElement::eByPolygonVertex:
+	{
+		// 현재 노멀 값을 읽어올 인덱스 얻어오기.
+		int index = isUsingIndex ? vertexNormal->GetIndexArray().GetAt(vertexCounter) : vertexCounter;
+
+		// 노멀 값 읽어오기. (DirectX와 FBX의 UV의 V좌표는 서로 반대.)
+		normal.x = (float)vertexNormal->GetDirectArray().GetAt(index).mData[0];
+		normal.y = (float)vertexNormal->GetDirectArray().GetAt(index).mData[1];
+		normal.z = (float)vertexNormal->GetDirectArray().GetAt(index).mData[2];
+
+		// 노멀 값 반환.
+		return normal;
+	}
+
+	default:
+	{
+		MessageBox(NULL, L"노멀 값이 유효하지 않습니다", L"오류", MB_OK);
+		return NULL;
+	}
+	}
+
+	return NULL;
 }

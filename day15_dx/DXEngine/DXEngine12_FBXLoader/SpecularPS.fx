@@ -37,10 +37,14 @@ if (diffuse.x > 0)
 	specular = dot(reflection, -viewDir);
 	specular = saturate(specular);
 	// 코사인그래프를 제곱해서 그래프를 좁게만든다 정반사영역이좁아짐
-	specular = pow(specular, 1.f); 
+	specular = pow(specular, 30.f); 
 }
+// 주변광
+float3 ambient = float3(0.1f, 0.1f, 0.1f);
 
-float3 finalColor = texColor.rgb * diffuse;
+// 최종색상
+//float3 finalColor = texColor.rgb * diffuse + specular;
+float3 finalColor = diffuse + specular + ambient;
 
 // 텍스처 색상 반환.
 return float4(finalColor, 1);

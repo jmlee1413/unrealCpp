@@ -43,7 +43,7 @@ void Engine::Render()
 
 float rotX = 0.01f;
 float rotY = 0.01f;
-float rotZ = 0.01f;
+float rotZ = 90.f;
 float doublePI = XM_PI * 2.f;
 void Engine::RotateObject(double deltaTime)
 {
@@ -71,7 +71,7 @@ void Engine::RotateObject(double deltaTime)
 	XMMATRIX translation = XMMatrixTranslation(0.f, 0.f, 1.f);
 
 	// 스케일
-	XMMATRIX scale = XMMatrixScaling(2.f, 1.f, 2.f);
+	XMMATRIX scale = XMMatrixScaling(1.f, 1.f, 1.f);
 
 	// 월드 행렬 갱신
 	worldMatrix = XMMatrixIdentity();
