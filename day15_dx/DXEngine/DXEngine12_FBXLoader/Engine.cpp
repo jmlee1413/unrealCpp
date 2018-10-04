@@ -21,7 +21,7 @@ bool Engine::Init()
 
 void Engine::Update(double deltaTime)
 {
-	RotateObject(deltaTime);
+	//RotateObject(deltaTime);
 }
 
 void Engine::Render()
@@ -43,7 +43,7 @@ void Engine::Render()
 
 float rotX = 0.01f;
 float rotY = 0.01f;
-float rotZ = 90.f;
+float rotZ = 0.01f;
 float doublePI = XM_PI * 2.f;
 void Engine::RotateObject(double deltaTime)
 {

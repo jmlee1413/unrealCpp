@@ -312,7 +312,7 @@ bool DXApp::InitScene()
 	//	return false;
 	//}
 
-	hr = LoadFBX("SK_CharM_Cardboard.FBX", &vertices, &indices);
+	hr = LoadFBX("HeroTPP.FBX", &vertices, &indices);
 	if (FAILED(hr))
 	{
 		MessageBox(hwnd, L"fbx 로드 실패", L"오류", MB_OK);
@@ -474,11 +474,19 @@ bool DXApp::LoadModel(const char * fileName)
 bool DXApp::InitTransformation()
 {
 	worldMatrix  = XMMatrixIdentity();
-	cameraPos    = XMVectorSet(0.f, 0.f, -200.f, 0.f);
+	cameraPos    = XMVectorSet(0.f, 0.f, -300.f, 0.f);
 	cameraTarget = XMVectorSet(0.f, 0.f, 0.f, 0.f);
 	cameraUp     = XMVectorSet(0.f, 1.f, 0.f, 0.f);
 
 	viewMatrix = XMMatrixLookAtLH(cameraPos, cameraTarget, cameraUp);
+
+	worldMatrix = XMMatrixIdentity();
+	XMMATRIX rotationX = XMMatrixRotationX(XMConvertToRadians(-90.f));
+	XMMATRIX rotationY = XMMatrixRotationY(XMConvertToRadians(-180.f));
+	XMMATRIX rotation = rotationX * rotationY;
+
+	XMMATRIX translation = XMMatrixTranslation(0.f, -90.f, 0.f);
+	worldMatrix = rotation * translation;
 
 	// 원근 투영방식
 	float fovY = XM_PI / 4.f; // 세로 시야각 설정
@@ -522,7 +530,7 @@ bool DXApp::InitTransformation()
 bool DXApp::InitTexture()
 {
 	HRESULT hr = D3DX11CreateShaderResourceViewFromFile(
-		pDevice, L"dx.jpg", NULL, NULL, &pTexture, NULL);
+		pDevice, L"T_Chr_FPS_D.png", NULL, NULL, &pTexture, NULL);
 
 	if (FAILED(hr))
 	{

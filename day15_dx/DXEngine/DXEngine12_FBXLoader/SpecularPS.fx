@@ -43,8 +43,8 @@ if (diffuse.x > 0)
 float3 ambient = float3(0.1f, 0.1f, 0.1f);
 
 // 최종색상
-//float3 finalColor = texColor.rgb * diffuse + specular;
-float3 finalColor = diffuse + specular + ambient;
+float3 finalColor = texColor.rgb * diffuse + specular +  ambient*0.5;
+//float3 finalColor = diffuse + specular + ambient;
 
 // 텍스처 색상 반환.
 return float4(finalColor, 1);
