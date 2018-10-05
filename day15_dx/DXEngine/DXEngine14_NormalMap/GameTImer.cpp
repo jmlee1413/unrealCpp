@@ -79,6 +79,13 @@ void GameTImer::Reset()
 	fps = frameCount;
 	frameCount = 0;
 	StartTime();
+
+	// fps값 콘솔에 출력
+	OutputDebugString(L"FPS: ");
+	wchar_t buffer[256];
+	_itow_s(fps, buffer, 10);
+	OutputDebugString(buffer);
+	OutputDebugString(L"\n");
 }
 
 int GameTImer::GetFPS() const

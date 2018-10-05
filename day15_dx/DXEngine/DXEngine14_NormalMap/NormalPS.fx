@@ -40,6 +40,8 @@ float4 main(ps_input input) : SV_TARGET
 	// 디퓨즈컬러
 	float4 albedo = diffuseMap.Sample(texSampler, input.texCoord); // 디퓨즈텍스처
 	diffuse = albedo * diffuse; // 디퓨즈맵핑 = 디퓨즈라이트 * 디퓨즈텍스쳐
+	//하프램버트
+	diffuse = pow(diffuse * 0.5f + 0.5f, 2.0f);
 
 	// 스페큘러
 	float3 specular = 0;

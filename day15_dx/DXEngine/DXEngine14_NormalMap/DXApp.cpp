@@ -18,8 +18,8 @@ DXApp::DXApp(HINSTANCE hinstance)
 {
 	hwnd = NULL;
 	this->hinstance = hinstance;
-	clientWidth = 800;
-	clientHeight = 600;
+	clientWidth = 1000;
+	clientHeight = 1000;
 	applicationName = L"Engine14 - Normal Mapping";
 	// libfbxsdk.dll을 프로젝트 폴더에 복사하고 경로 설정도해줘야함
 	// 속성 c/c++ - language - conformance mode 를 no로

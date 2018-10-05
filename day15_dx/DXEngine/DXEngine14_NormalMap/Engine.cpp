@@ -42,7 +42,9 @@ void Engine::Render()
 	pDeviceContext->DrawIndexed(nIndices, 0, 0); //뒤에껀 오프셋
 
 	//스왑체인 교체
-	pSwapChain->Present(0, 0);
+	pSwapChain->Present(1, 0); 
+	// 1: 모니터의 동기화를 맞추기
+	// 0으로하면 gpu최대로써서 프레임 6000넘음;
 }
 
 float rotX = 0.01f;
