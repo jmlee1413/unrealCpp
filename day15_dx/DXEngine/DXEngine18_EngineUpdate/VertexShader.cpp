@@ -1,7 +1,5 @@
 #include "VertexShader.h"
 
-
-
 VertexShader::VertexShader()
 {
 }
@@ -39,6 +37,7 @@ bool VertexShader::CompileShader()
 {
 	if (!ShaderUtil::CompileShader(fileName, entryPoint, profile, &shaderBuffer))
 	{
+		MessageBox(NULL, L"정점 셰이더 컴파일 실패", L"오류", MB_OK);
 		return false;
 	}
 
@@ -50,6 +49,7 @@ bool VertexShader::CreateShader(ID3D11Device * device)
 	if (!ShaderUtil::CreateVertexShader(device, shaderBuffer->GetBufferPointer(),
 		shaderBuffer->GetBufferSize(), NULL, &vertexShader))
 	{
+		MessageBox(NULL, L"정점 셰이더 생성 실패", L"오류", MB_OK);
 		return false;
 	}
 

@@ -1,12 +1,9 @@
 #pragma once
-
-#include "DxUtil.h"
+#include "DXUtil.h"
+#include <vector>
 #include "VertexShader.h"
 #include "PixelShader.h"
 
-#include <DirectXMath.h> //12
-#include <xnamath.h> //11
-#include <vector>
 
 class Mesh
 {

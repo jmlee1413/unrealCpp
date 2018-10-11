@@ -76,19 +76,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shaders\CubePS.fx">
-      <Filter>Shaders</Filter>
-    </None>
     <None Include="Shaders\CubeVS.fx">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Shaders\DiffusePS.fx">
-      <Filter>Shaders</Filter>
-    </None>
     <None Include="Shaders\DiffuseVS.fx">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="Shaders\EffectPS.fx">
       <Filter>Shaders</Filter>
     </None>
     <None Include="Shaders\EffectVS.fx">
@@ -110,6 +101,15 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="Shaders\ToonVS.fx">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\EffectPS.fx">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\CubePS.fx">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\DiffusePS.fx">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

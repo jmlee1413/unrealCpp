@@ -5,7 +5,7 @@
 
 namespace FBXLoader
 {
-	extern FbxManager* fbxManager;
+	//extern FbxManager* fbxManager;
 
 	HRESULT LoadFBX(const char* fileName, std::vector<Vertex>* pOutVertices, std::vector<DWORD>* pOutIndices);
 

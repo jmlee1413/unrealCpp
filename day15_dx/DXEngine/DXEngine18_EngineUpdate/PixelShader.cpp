@@ -6,6 +6,16 @@ PixelShader::PixelShader()
 {
 }
 
+PixelShader::PixelShader(LPCWSTR fileName)
+	: Shader(fileName)
+{
+	profile = "ps_5_0";
+}
+
+PixelShader::PixelShader(LPCWSTR fileName, LPCSTR entry, LPCSTR profile)
+	: Shader(fileName, entry, profile) 
+{
+};
 
 PixelShader::~PixelShader()
 {

@@ -5,8 +5,11 @@ namespace ShaderUtil
 
 	bool CompileShader(LPCWSTR fileName, LPCSTR entry, LPCSTR profile, ID3DBlob ** pOutShaderBuffer)
 	{
-		HRESULT hr = D3DX11CompileFromFile(fileName, NULL, NULL, entry,
-			profile, 0, 0, NULL, pOutShaderBuffer, NULL, NULL);
+		HRESULT hr
+			= D3DX11CompileFromFile(
+				fileName, NULL, NULL,
+				entry, profile, 0, 0, NULL,
+				pOutShaderBuffer, NULL, NULL);
 
 		if (FAILED(hr))
 		{
@@ -29,7 +32,10 @@ namespace ShaderUtil
 		HRESULT hr = device->CreateVertexShader(pointer, size, linkage, ppVertexShader);
 		if (FAILED(hr))
 		{
-			MessageBox(NULL, L"vertex shader create failed", L"error", MB_OK);
+			MessageBox(NULL, L"정점 셰이더 생성 오류", L"오류", MB_OK);
+			OutputDebugString(L"shader compile failed");
+			OutputDebugString(L"\n");
+
 			return false;
 		}
 

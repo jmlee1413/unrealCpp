@@ -107,8 +107,8 @@ bool DXApp::Init()
 		return false;
 
 	// 공간 변환 행렬 초기화.
-	if (InitTransformation() == false) 
-		return false;
+	/*if (InitTransformation() == false) 
+		return false;*/
 
 	// 라이트 버퍼 초기화.
 	if (InitLightCB() == false)

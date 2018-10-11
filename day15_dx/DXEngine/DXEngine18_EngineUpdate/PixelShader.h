@@ -1,5 +1,7 @@
 #pragma once
 #include "Shader.h"
+#include <vector>
+
 
 class PixelShader : public Shader
 {
@@ -7,11 +9,9 @@ public:
 	PixelShader();
 	~PixelShader();
 
-	PixelShader(LPCWSTR fileName) 
-		: Shader(fileName) { profile = "vs_4_0"; };
+	PixelShader(LPCWSTR fileName);
 
-	PixelShader(LPCWSTR fileName, LPCSTR entry, LPCSTR profile)
-		:Shader(fileName, entry, profile) {};
+	PixelShader(LPCWSTR fileName, LPCSTR entry, LPCSTR profile);
 
 	virtual bool CompileShader() override;
 	virtual bool CreateShader(ID3D11Device* device) override;

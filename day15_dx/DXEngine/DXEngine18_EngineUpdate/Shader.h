@@ -1,8 +1,8 @@
 #pragma once
 
-#include <vector>
-#include "DxUtil.h"
+#include "DXUtil.h"
 #include "ShaderUtil.h"
+
 
 class Shader
 {

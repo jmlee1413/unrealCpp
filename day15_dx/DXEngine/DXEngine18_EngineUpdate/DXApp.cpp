@@ -18,7 +18,7 @@ DXApp::DXApp(HINSTANCE hinstance)
 	hwnd = NULL; //핸들은 창을 만들어야 설정할수있다
 	// null이나 nullptr이나 똑같다
 	this->hinstance = hinstance;
-	clientWidth = 1000;
+	clientWidth = 1200;
 	clientHeight = 1000;
 	applicationName = L"Engine18 - Engine Update";
 	wndStyle = WS_OVERLAPPEDWINDOW;
@@ -100,7 +100,7 @@ bool DXApp::Init()
 	if (InitScene() == false)
 		return false;
 
-	if (InitTransformation() == false)
+	if (InitLightCB() == false)
 		return false;
 
 	return true;
@@ -307,6 +307,35 @@ bool DXApp::InitScene()
 
 void DXApp::InitMeshInfo()
 {
+	LPCSTR fbxNameTPP = "Resources//Models//HeroTPP.fbx";
+
+	Texture tppDiffuseMap;
+	tppDiffuseMap.fileName = L"Resources//Textures//T_Chr_FPS_D.png";
+	Texture tppNormalMap;
+	tppNormalMap.fileName = L"Resources//Textures//T_Chr_FPS_N.png";
+	Texture cubeMap;
+	cubeMap.fileName = L"Resources//Textures//Yokohama3.dds";
+
+	Mesh tppDiffuse(fbxNameTPP, L"Shaders//DiffuseVS.fx", L"Shaders//DiffusePS.fx");
+	tppDiffuse.AddTexture(tppDiffuseMap);
+	tppDiffuse.SetPosition(XMFLOAT3(-90.f, -90.f, 0.f));
+	tppDiffuse.SetRotation(XMFLOAT3(-90.f, 180.f, 0.f));
+
+	Mesh tppNormal(fbxNameTPP, L"Shaders//NormalVS.fx", L"Shaders//NormalPS.fx");
+	tppNormal.AddTexture(tppDiffuseMap);
+	tppNormal.AddTexture(tppNormalMap);
+	tppNormal.SetPosition(XMFLOAT3(0.f, -90.f, 0.f));
+	tppNormal.SetRotation(XMFLOAT3(-90.f, 180.f, 0.f));
+
+	Mesh tppReflection(fbxNameTPP, L"Shaders//CubeVS.fx", L"Shaders//CubePS.fx");
+	tppReflection.AddTexture(cubeMap);
+	tppReflection.SetPosition(XMFLOAT3(90.f, -90.f, 0.f));
+	tppReflection.SetRotation(XMFLOAT3(-90.f, 180.f, 0.f));
+
+	// add to meshes
+	meshes.push_back(tppDiffuse);
+	meshes.push_back(tppNormal);
+	meshes.push_back(tppReflection);
 }
 
 // 한번 더 랩핑해주는 이유는 함수 하나는 하나의 일만 해야된다고함 그래서 쪼갬
@@ -398,6 +427,10 @@ bool DXApp::InitTransformation(Mesh * mesh)
 
 	//행렬 설정
 	mesh->SetWVPMatrices(worldMatrix, viewMatrix, projectionMatrix);
+
+	InitWVPBuffer(mesh);
+	pDeviceContext->VSSetConstantBuffers(0, 1, &cBuffer);
+
 	return true;
 }
 
@@ -411,8 +444,8 @@ void DXApp::InitWorldMatrix(Mesh * mesh)
 void DXApp::InitViewMatrix()
 {
 	worldMatrix = XMMatrixIdentity();
-	cameraPos = XMVectorSet(4.f, 4.f, -8.f, 0.f);
-	cameraTarget = XMVectorSet(0.f, 0.f, 0.f, 0.f);
+	cameraPos = XMVectorSet(0.f, 0.f, -200.f, 1.f);
+	cameraTarget = XMVectorSet(0.f, 0.f, 0.f, 1.f);
 	cameraUp = XMVectorSet(0.f, 1.f, 0.f, 0.f);
 
 	viewMatrix = XMMatrixLookAtLH(cameraPos, cameraTarget, cameraUp);
@@ -449,7 +482,7 @@ bool DXApp::InitWVPBuffer(Mesh * mesh)
 	}
 
 	// cbuffer bind
-	pDeviceContext->VSGetConstantBuffers(0, 1, &cBuffer);
+	pDeviceContext->VSSetConstantBuffers(0, 1, &cBuffer);
 	return true;
 }
 

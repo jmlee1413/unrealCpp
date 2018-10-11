@@ -142,42 +142,42 @@
     <ClInclude Include="VertexShader.h" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="CubePS.fx">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="CubeVS.fx">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="DiffusePS.fx">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="DiffuseVS.fx">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="EffectPS.fx">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="EffectVS.fx">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="NormalPS.fx">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="NormalVS.fx">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="SpecularPS.fx">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="SpecularVS.fx">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="ToonPS.fx">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="ToonVS.fx">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
-    </FxCompile>
+    <None Include="Shaders\CubePS.fx">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Shaders\CubeVS.fx">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Shaders\DiffusePS.fx">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Shaders\DiffuseVS.fx">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Shaders\EffectPS.fx">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Shaders\EffectVS.fx">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Shaders\NormalPS.fx">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Shaders\NormalVS.fx">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Shaders\SpecularPS.fx">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Shaders\SpecularVS.fx">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Shaders\ToonPS.fx">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Shaders\ToonVS.fx">
+      <FileType>Document</FileType>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -29,6 +29,10 @@ void Engine::Render()
 	// 설정한 컬러로 지워라
 	pDeviceContext->ClearRenderTargetView(pRenderTargetView, color);
 
+	// 뎁스/스텐실 뷰 지우기.
+	pDeviceContext->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+
+
 	DrawMesh();
 
 	//스왑체인 교체
