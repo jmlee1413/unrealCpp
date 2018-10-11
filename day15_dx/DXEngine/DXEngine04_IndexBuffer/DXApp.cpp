@@ -351,8 +351,8 @@ bool DXApp::InitScene()
 	// unsigned long
 	DWORD indices[] = 
 	{
-		0,1,2,
-		0,2,3
+		1,2,3,
+		1,3,0
 	}; // 삼각형 두개그린다
 	
 	nIndices = ARRAYSIZE(indices);
@@ -403,7 +403,7 @@ bool DXApp::InitScene()
 	//인풋 레이아웃 바인딩
 	pDeviceContext->IASetInputLayout(vertexInputLayout);
 
-	//정점을 이어서 그릴 방식 설정
+	//정점을 이어서 그릴 방식 설정D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST
 	pDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	//뷰포트 설정 해줘야 그려짐
