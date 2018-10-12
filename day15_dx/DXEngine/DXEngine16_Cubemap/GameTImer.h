@@ -1,11 +1,11 @@
 #pragma once
 #include <Windows.h>
 
-class GameTImer
+class GameTimer
 {
 public:
-	GameTImer();
-	~GameTImer();
+	GameTimer();
+	~GameTimer();
 
 	void StartTime();
 	double GetTime() const;

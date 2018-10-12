@@ -106,7 +106,7 @@ protected:
 
 	ID3D11Buffer* lightBuffer; // 라이트용 상수버퍼
 
-	GameTImer gameTimer;
+	GameTimer gameTimer;
 
 protected:
 

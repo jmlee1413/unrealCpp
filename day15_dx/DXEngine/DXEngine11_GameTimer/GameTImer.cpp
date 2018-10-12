@@ -2,16 +2,16 @@
 
 
 
-GameTImer::GameTImer()
+GameTimer::GameTimer()
 {
 }
 
 
-GameTImer::~GameTImer()
+GameTimer::~GameTimer()
 {
 }
 
-void GameTImer::StartTime()
+void GameTimer::StartTime()
 {
 	LARGE_INTEGER frequencyCount;
 
@@ -26,7 +26,7 @@ void GameTImer::StartTime()
 	countStart = frequencyCount.QuadPart;
 }
 
-double GameTImer::GetTime() const
+double GameTimer::GetTime() const
 {
 	LARGE_INTEGER currentTime;
 	QueryPerformanceCounter(&currentTime);
@@ -35,7 +35,7 @@ double GameTImer::GetTime() const
 	return time;
 }
 
-double GameTImer::DeltaTime()
+double GameTimer::DeltaTime()
 {
 	// 틱 단위의 현재시간
 	LARGE_INTEGER currentTime;
@@ -63,7 +63,7 @@ double GameTImer::DeltaTime()
 	return deltaTime;
 }
 
-void GameTImer::UpdateTimer()
+void GameTimer::UpdateTimer()
 {
 	//틱 단위로 프레임 수 증가시키기
 	++frameCount;
@@ -74,14 +74,14 @@ void GameTImer::UpdateTimer()
 	}
 }
 
-void GameTImer::Reset()
+void GameTimer::Reset()
 {
 	fps = frameCount;
 	frameCount = 0;
 	StartTime();
 }
 
-int GameTImer::GetFPS() const
+int GameTimer::GetFPS() const
 {
 	return fps;
 }
