@@ -62,12 +62,12 @@ void CameraClass::MoveUp(float dir)
 
 void CameraClass::Yaw(float angle)
 {
-	yaw += angle * rotationSpeed * 0.001f;
+	yaw += angle * rotationSpeed * 0.1f;
 }
 
 void CameraClass::Pitch(float angle)
 {
-	pitch += angle * rotationSpeed * 0.001f;
+	pitch += angle * rotationSpeed * 0.1f;
 }
 
 void CameraClass::UpdateCamera()
